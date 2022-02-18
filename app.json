@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile-recharge",
-    "slug": "mobile-recharge",
+    "name": "Mobile Recharge",
+    "slug": "xyz-airtimebd-mobile-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,9 +19,13 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "xyz.airtimebd.app",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "package": "xyz.airtimebd.app",
+      "version": "1.0.0",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"

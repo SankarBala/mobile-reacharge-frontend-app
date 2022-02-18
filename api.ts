@@ -1,7 +1,5 @@
 import axios from 'axios';
 import { host } from './config';
-// import Store from "./redux_store/store";
-// || Store.getState().user.token
 import * as Storage from "./controllers/Storage";
 
 const api = async (): Promise<any> => {

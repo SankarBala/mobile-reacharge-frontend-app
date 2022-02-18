@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { View, Text, Button } from "react-native";
+import React, { useState } from "react";
+import { View, Text } from "react-native";
 import tw from 'tailwind-react-native-classnames';
 import { host } from "../config";
 import * as Storage from './../controllers/Storage';
@@ -114,7 +114,7 @@ const Register = ({ navigation, route }) => {
                         </button>
                     </div>
                 </View>
-            <Text style={tw`text-center text-gray-500 text-md w-full my-3 flex justify-center`} onPress={() => { navigation.navigate("Home") }}>Go to home page</Text>
+                <Text style={tw`text-center text-gray-500 text-md w-full my-3 flex justify-center`} onPress={() => { navigation.navigate("Home") }}>Go to home page</Text>
             </form>
 
         </View>

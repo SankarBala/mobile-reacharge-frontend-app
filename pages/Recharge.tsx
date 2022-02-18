@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { RadioButton } from 'react-native-paper';
-import axios from "axios";
 import * as Storage from "./../controllers/Storage";
 import api from "../api";
 
@@ -49,11 +48,16 @@ export default function Recharge({ navigation, route }) {
                 })
                 .catch((err) => {
                     setMessage(err.response.data.message);
-                    if (err.response.data.message == "Unauthenticated.") {
+                    // if (err.response.data.message == "Unauthenticated.") {
+                    //     Storage.removeData("token");
+                    //     Storage.removeData("user");
+                    //     navigation.navigate('Login');
+                    // }
+                    if (err.response.status === 401) {
                         Storage.removeData("token");
                         Storage.removeData("user");
-                        navigation.navigate('Login');
-                    }
+                        navigation.navigate("Login", { from: "Recharge"});
+                      }
                 });
         });
 

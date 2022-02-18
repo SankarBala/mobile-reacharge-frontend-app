@@ -38,6 +38,8 @@ export default function History({ navigation }) {
         })
         .catch((err: any) => {
           if (err.response.status === 401) {
+            Storage.removeData("token");
+            Storage.removeData("user");
             navigation.navigate('Login', { from: 'History' })
           }
         });

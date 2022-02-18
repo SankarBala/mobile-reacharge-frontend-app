@@ -23,6 +23,7 @@ export default function Profile({ navigation }) {
           navigation.navigate("Login", { from: "Profile" });
         } else {
           setUser(JSON.parse(user));
+          refresh();
         }
       });
     });
@@ -58,7 +59,7 @@ export default function Profile({ navigation }) {
           if (err.response.status === 401) {
             Storage.removeData("token");
             Storage.removeData("user");
-            navigation.navigate("Login");
+            navigation.navigate("Login", { from: "Profile" });
           }
         });
     })
@@ -75,9 +76,11 @@ export default function Profile({ navigation }) {
             <tr>
               <td>Email : </td> <td>{user.email}</td>
             </tr>
+            <br />
             <tr>
-              <td>Balance : </td> <td>{user.balance}</td>
+              <td>Balance : </td> <td>{user.balance}</td> <td> <Text style={tw`p-1 my-3 rounded bg-blue-800 text-white`} onPress={() => { navigation.navigate("LoadWallet") }}>Wallet refill</Text></td>
             </tr>
+            <br />
           </tbody>
         </table>
         <div style={tw`flex justify-between`}>
