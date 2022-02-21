@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import tw from 'tailwind-react-native-classnames';
 import { host } from "../config";
-import * as Storage from './../controllers/Storage';
 
 
 const OTPSubmit = ({ navigation, route }) => {

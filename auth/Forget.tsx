@@ -1,12 +1,10 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import tw from 'tailwind-react-native-classnames';
 import { host } from "../config";
-import * as Storage from './../controllers/Storage';
 
-
-const Login = ({ navigation, route }) => {
+const Login = ({ navigation }) => {
 
     const [error, setError] = useState("");
     const [formData, setFormData] = useState({ email: "" });
