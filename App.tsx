@@ -13,9 +13,8 @@ export default function App() {
   return (
     <View style={tw`bg-blue-200 h-full w-full m-auto`}>
       <NavigationContainer >
-        <Stack.Navigator initialRouteName={"Home"}>
+        <Stack.Navigator initialRouteName={"Index"}>
           <Stack.Screen
-         
             name="Home"
             component={Index}
             key="Home"
@@ -25,8 +24,7 @@ export default function App() {
             return <Stack.Screen name={route.name} component={route.component} key={route.name}/>
           })}
         </Stack.Navigator>
-
-        <Text style={tw`p-2 m-auto bg-black-200 text-white-400`}>
+        <Text style={tw`p-2 m-auto text-gray-600`}>
           Devloped by Sankar Bala
         </Text>
       </NavigationContainer>

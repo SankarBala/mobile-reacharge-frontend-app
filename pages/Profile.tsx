@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
+import { Button, Text, View } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import api from "../api";
 import * as Storage from "../controllers/Storage";
@@ -29,8 +29,6 @@ export default function Profile({ navigation }) {
     });
 
   }, [navigation]);
-
-
 
 
   const logout = () => {
@@ -66,34 +64,33 @@ export default function Profile({ navigation }) {
   }
 
   return (
-    <div style={tw`bg-blue-200 p-3 h-full`}>
-      <div style={tw`text-gray-700`}>
-        <table style={tw`table py-4`}>
-          <tbody>
-            <tr>
-              <td>Name : </td> <td>{user.name}</td>
-            </tr>
-            <tr>
-              <td>Email : </td> <td>{user.email}</td>
-            </tr>
-            <br />
-            <tr>
-              <td>Balance : </td> <td>{user.balance}</td> <td> <Text style={tw`p-1 my-3 rounded bg-blue-800 text-white`} onPress={() => { navigation.navigate("LoadWallet") }}>Wallet refill</Text></td>
-            </tr>
-            <br />
-          </tbody>
-        </table>
-        <div style={tw`flex justify-between`}>
-          <button style={tw`flex w-24 h-8 bg-blue-500 text-white rounded-md px-2 py-1`}
-            onClick={logout}>
-            Logout
-          </button>
-          <button style={tw`flex w-24 h-8 bg-green-600 text-white rounded-md px-2 py-1`}
-            onClick={refresh}>
-            Refresh
-          </button>
-        </div>
-      </div>
-    </div>
+    <View style={tw`bg-blue-200 p-3 h-full`}>
+      <View style={tw`text-gray-700`}>
+        <View style={tw`py-4`}>
+          <Text style={tw`text-sm py-2`}>Name : {user.name}</Text>
+          <Text style={tw`text-sm py-2`}>Email : {user.email}</Text>
+          <View style={tw`flex flex-row justify-between items-center`}>
+            <Text>Balance : {user.balance} </Text>
+            <Button
+              color="purple"
+              onPress={() => { navigation.navigate("LoadWallet") }}
+              title="Refill wallet"
+            />
+          </View>
+        </View>
+        <View style={tw`flex flex-row justify-between`}>
+          <Button
+            onPress={logout}
+            color="maroon"
+            title="Logout"
+          />
+          <Button
+            onPress={refresh}
+            color="green"
+            title="Refresh"
+          />
+        </View>
+      </View>
+    </View>
   );
 }

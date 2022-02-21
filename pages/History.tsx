@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, FlatList, ScrollView, Text, TextInput, View } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import * as Storage from "./../controllers/Storage";
 import api from "../api";
@@ -11,7 +11,6 @@ export default function History({ navigation }) {
   const [nextPage, setNextPage] = useState(2);
   const [previousPage, setPreviousPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
-
   const [historyData, setHistoryData] = useState([]);
 
 
@@ -37,90 +36,71 @@ export default function History({ navigation }) {
           setTotalPage(res.data.last_page);
         })
         .catch((err: any) => {
-          if (err.response.status === 401) {
-            Storage.removeData("token");
-            Storage.removeData("user");
-            navigation.navigate('Login', { from: 'History' })
-          }
+          console.log(err);
+          // if (err.response.status === 401) {
+          //   Storage.removeData("token");
+          //   Storage.removeData("user");
+          //   navigation.navigate('Login', { from: 'History' })
+          // }
         });
     });
   }, [currentPage, searchString]);
 
 
-
-  const handleEvent = (page: any) => {
-    setCurrentPage(page);
-    console.log(page);
-  }
-
-
-  const searchText = (e: object) => {
-    setCurrentPage(1);
-    setSearchString(e.target.value);
-  }
-
-
   return (
-    <View>
-      <Text style={tw`py-2 px-2 text-lg text-right`}>
-        Search: <TextInput
-          style={tw`border border-1 outline-none p-1 rounded`}
+    <ScrollView>
+      <View style={tw`flex flex-row justify-end items-center mb-2 pr-2`}>
+        <Text style={tw`py-2 px-2 w-20 `}>Search: </Text>
+        <TextInput
+          style={tw`border border-2 w-36 h-6`}
           placeholder="Search"
-          defaultValue=""
-          onChange={(e) => searchText(e)}
-        />
-      </Text>
-      <View style={tw`p-3 bg-black text-center`}>
-        <div style={tw`flex `}>
-          <Text style={tw`flex-1 w-24 text-white text-left`}>Number</Text>
-          <Text style={tw`flex-1 w-24 text-white `}>Amount</Text>
-          <Text style={tw`flex-1 w-24 text-white `}>Date/Time</Text>
-          <Text style={tw`flex-1 w-24 text-white text-right`}>Status</Text>
-        </div>
-      </View>
-      <ScrollView style={styles.scrollview}>
-        <FlatList
-          data={historyData}
-          renderItem={({ item }) => {
-            return (
-              <View style={tw`p-3 text-center`} key={item.id}>
-                <div style={tw`flex`}>
-                  <Text style={tw`flex-1 w-24 text-left`}>{item.number}</Text>
-                  <Text style={tw`flex-1 w-24`}>{item.amount}</Text>
-                  <Text style={tw`flex-1 w-24 `}>{item.created_at}</Text>
-                  <Text style={tw`flex-1 w-24  text-right`}>{item.status}</Text>
-                </div>
-              </View>
-            );
+          keyboardType="numeric"
+          onChangeText={(value) => {
+            setCurrentPage(1);
+            setSearchString(value);
           }}
         />
-      </ScrollView>
-
+      </View>
+      <View style={tw`flex flex-row justify-between bg-gray-900 py-1 px-3`}>
+        <Text style={tw`text-white text-left`}>Number</Text>
+        <Text style={tw`text-white `}>Amount</Text>
+        <Text style={tw`text-white `}>Date/Time</Text>
+        <Text style={tw`text-white text-right`}>Status</Text>
+      </View>
+      <FlatList style={tw`h-96`}
+        data={historyData}
+        renderItem={({ item }) => {
+          return (
+            <ScrollView style={tw`p-3 text-center`} key={item.id}>
+              <View style={tw`flex flex-row justify-around h-8`}>
+                <Text style={tw`w-28 text-xs text-left`}>{item.number}</Text>
+                <Text style={tw`w-8 text-xs`}>{item.amount}</Text>
+                <Text style={tw`w-20 text-xs `}>{item.created_at}</Text>
+                <Text style={tw`w-16 text-xs  text-right`}>{item.status}</Text>
+              </View>
+            </ScrollView>
+          );
+        }}
+      />
 
 
       <View style={tw`p-3 mt-2`}>
-        <div style={tw`flex justify-between`}>
-          <button style={tw`flex w-24 bg-blue-600 text-white justify-center p-1 rounded ${currentPage === 1 ? 'opacity-50' : ''}`}
-            name="previous"
-            onClick={() => handleEvent(previousPage)}
+        <View style={tw`flex flex-row justify-around`}>
+          <Button
+            color="black"
+            onPress={() => setCurrentPage(previousPage)}
             disabled={previousPage === 0}
-          >Previous</button>
-          <button style={tw`flex w-24 text-white justify-center p-1 rounded bg-blue-600 ${currentPage === totalPage ? "opacity-50" : ""}`}
-            name="next"
-            onClick={() => handleEvent(nextPage)}
+            title="Previous"
+          />
+          <Button
+            color="black"
+            onPress={() => setCurrentPage(nextPage)}
             disabled={nextPage > totalPage}
-          >Next</button>
-        </div>
+            title="Next"
+          />
+        </View>
       </View>
 
-
-    </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollview: {
-    height: "450px",
-    margin: "10px 0",
-  }
-})

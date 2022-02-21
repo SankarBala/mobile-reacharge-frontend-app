@@ -25,7 +25,6 @@
     },
     "android": {
       "package": "xyz.airtimebd.app",
-      "version": "1.0.0",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"

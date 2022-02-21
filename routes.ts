@@ -4,7 +4,7 @@ import Recharge from "./pages/Recharge";
 import Profile from "./pages/Profile";
 import LoadWallet from "./pages/LoadWallet";
 
-// Authentication pages
+// // Authentication pages
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 

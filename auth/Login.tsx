@@ -1,10 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TextInput, Button } from "react-native";
 import tw from 'tailwind-react-native-classnames';
 import { host } from "../config";
 import * as Storage from './../controllers/Storage';
-
 
 
 const Login = ({ navigation, route }) => {
@@ -24,11 +23,6 @@ const Login = ({ navigation, route }) => {
     }, [navigation]);
 
 
-
-    const handleInputChange = (e: object): void => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
-
     function signIn() {
         axios.post(`${host}/api/login`, formData).then(res => {
             Storage.storeData('token', res.data.token);
@@ -46,64 +40,60 @@ const Login = ({ navigation, route }) => {
 
 
     return (
-        <View style={tw`w-full h-full bg-blue-300 p-4 flex items-center align-center justify-center`}>
-            <form style={tw` shadow-md rounded-md px-2 pt-6 pb-8 mb-4 w-72 h-64`}>
+        <View style={tw`w-full h-full bg-blue-300 p-4 flex items-center justify-center`}>
+            <View style={tw`rounded-md px-2 pt-6 pb-8 mb-4 w-72 h-64`}>
                 <View style={tw`mb-4`}>
                     <Text
-                        style={tw`block text-green-700 text-md font-bold mb-2`}
+                        style={tw`text-black  font-bold mb-2`}
                     >
                         Username
                     </Text>
-                    <input
-                        style={tw`shadow appearance-none border rounded py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                        id="username"
-                        type="text"
+                    <TextInput
+                        style={tw`border rounded py-0 px-2 text-gray-700`}
                         placeholder="Username"
-                        name="email"
-                        onChange={handleInputChange}
+                        keyboardType="default"
+                        onChangeText={(value: string) => {
+                            setFormData({ ...formData, email: value })
+                        }}
                     />
                 </View>
-                <View style={tw`mb-6`}>
+                <View style={tw`mb-0`}>
                     <Text
-                        style={tw`block text-green-700 text-md font-bold mb-2`}
+                        style={tw`text-black font-bold mb-2`}
                     >
                         Password
                     </Text>
-                    <input
-                        style={tw`shadow appearance-none border rounded  py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline`}
-                        id="password"
-                        type="password"
+                    <TextInput
+                        style={tw`border rounded  py-0 px-2 text-gray-700 mb-1`}
                         placeholder="******************"
-                        name="password"
-                        onChange={handleInputChange}
+                        secureTextEntry={true}
+                        keyboardType="default"
+                        onChangeText={(value: string) => { setFormData({ ...formData, password: value }) }}
                     />
-                    <Text style={tw`text-red-700 text-xs italic`}>{error}</Text>
+                    <Text style={tw`text-red-700 text-xs italic mb-3`}>{error}</Text>
                 </View>
-                <View style={tw`flex justify-around`}>
-                    <div style={tw`flex justify-between`}>
-                        <button
-                            style={tw`inline w-1/3 bg-blue-500 hover:bg-blue-700 border-0 text-white font-bold py-2 px-4 mb-2 rounded focus:outline-none focus:shadow-outline`}
-                            type="button"
-                            onClick={signIn}
-                        >
-                            Sign In
-                        </button>
-                        <button
-                            style={tw`inline w-1/3 bg-yellow-500 hover:bg-blue-700 border-0 text-white font-bold py-2 px-4 mb-2 rounded focus:outline-none focus:shadow-outline`}
-                            type="button"
-                            onClick={() => navigation.navigate("Register")}
-                        >
-                            Register
-                        </button>
-                    </div>
-                    <Text
-                        style={tw`inline font-bold text-sm text-blue-500 hover:text-blue-800 `}
-                    >
-                        Forgot Password?
-                    </Text>
+                <View style={tw`flex flex-row justify-between`}>
+                    <Button
+                        title="Sign In"
+                        color="black"
+                        onPress={signIn}
+                    />
+
+                    <Button
+                        title="Sign Up"
+                        color="green"
+                        onPress={() => navigation.navigate("Register")}
+                    />
+
                 </View>
-            </form>
-            <Text style={tw`text-center text-gray-500 text-md`} onPress={() => { navigation.navigate("Home") }}>Go to home page</Text>
+                <Text
+                    style={tw`my-2 font-bold text-sm text-yellow-300 `}
+                >
+                    Forgot Password?
+                </Text>
+
+            </View>
+            <Text style={tw`text-center text-gray-500`} onPress={() => { navigation.navigate("Home") }}>Go to home page</Text>
         </View>
 
     );

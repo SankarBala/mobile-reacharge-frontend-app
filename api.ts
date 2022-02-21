@@ -10,7 +10,7 @@ const api = async (): Promise<any> => {
             Accept: "application/json",
             Authorization: `Bearer ${token}`
         }
-        
+
         return axios;
     });
 }
