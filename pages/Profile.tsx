@@ -73,7 +73,7 @@ export default function Profile({ navigation }) {
             <Text>Balance : {user.balance} </Text>
             <Button
               color="purple"
-              onPress={() => { navigation.navigate("LoadWallet") }}
+              onPress={() => { navigation.navigate("Load Wallet") }}
               title="Refill wallet"
             />
           </View>

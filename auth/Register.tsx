@@ -30,7 +30,7 @@ const Register = ({ navigation, route }) => {
 
 
     return (
-        <View style={tw`w-full h-full bg-blue-300 p-4 flex items-center align-center justify-center`}>
+        <View style={tw`w-full h-full bg-blue-300 p-4 flex items-center justify-center`}>
             <View style={tw`rounded-md px-2 pt-6 pb-8 mb-4 w-72 `}>
                 <View style={tw`mb-2`}>
                     <Text
@@ -97,7 +97,7 @@ const Register = ({ navigation, route }) => {
                             onPress={() => navigation.navigate("Login")}
                         />
                 </View>
-                <Text style={tw`text-center text-gray-900 text-md w-full mt-5 flex justify-center`} onPress={() => { navigation.navigate("Home") }}>Go to home page</Text>
+                <Text style={tw`text-center text-gray-900 w-full mt-5 flex justify-center`} onPress={() => { navigation.navigate("Home") }}>Go to home page</Text>
             </View>
 
         </View>

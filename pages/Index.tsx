@@ -11,6 +11,8 @@ export default function Index({ navigation }) {
             Storage.getData("token").then((token) => {
                 if (token !== undefined) {
                     setLogged(true);
+                }else{
+                    setLogged(false);
                 }
             });
         });

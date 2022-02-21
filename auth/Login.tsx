@@ -27,8 +27,7 @@ const Login = ({ navigation, route }) => {
         axios.post(`${host}/api/login`, formData).then(res => {
             Storage.storeData('token', res.data.token);
             Storage.storeData('user', JSON.stringify(res.data.user));
-            console.log(navigation, route);
-            if (route.params !== undefined) {
+             if (route.params !== undefined) {
                 navigation.navigate(route.params.from)
             } else {
                 navigation.navigate("Home");
@@ -87,7 +86,8 @@ const Login = ({ navigation, route }) => {
 
                 </View>
                 <Text
-                    style={tw`my-2 font-bold text-sm text-yellow-300 `}
+                    style={tw`my-2 italic text-sm text-yellow-600 `}
+                    onPress={() => navigation.navigate("Forget")}
                 >
                     Forgot Password?
                 </Text>

@@ -13,7 +13,7 @@ export default function App() {
   return (
     <View style={tw`bg-blue-200 h-full w-full m-auto`}>
       <NavigationContainer >
-        <Stack.Navigator initialRouteName={"Index"}>
+        <Stack.Navigator initialRouteName={"Home"}>
           <Stack.Screen
             name="Home"
             component={Index}

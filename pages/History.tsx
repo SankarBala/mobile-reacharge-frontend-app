@@ -48,7 +48,7 @@ export default function History({ navigation }) {
 
 
   return (
-    <ScrollView>
+    <View>
       <View style={tw`flex flex-row justify-end items-center mb-2 pr-2`}>
         <Text style={tw`py-2 px-2 w-20 `}>Search: </Text>
         <TextInput
@@ -101,6 +101,6 @@ export default function History({ navigation }) {
         </View>
       </View>
 
-    </ScrollView>
+    </View>
   );
 }

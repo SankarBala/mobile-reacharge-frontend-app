@@ -7,6 +7,9 @@ import LoadWallet from "./pages/LoadWallet";
 // // Authentication pages
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import Forget from "./auth/Forget";
+import OTPSubmit from "./auth/OTPSubmit";
+import NewPassword from "./auth/NewPassword";   
 
 
 // Export routes
@@ -16,7 +19,10 @@ const routes = [
     { name: 'Profile', component: Profile },
     { name: 'Login', component: Login },
     { name: 'Register', component: Register },
-    { name: 'LoadWallet', component: LoadWallet },
+    { name: 'Load Wallet', component: LoadWallet },
+    { name: 'Forget', component: Forget },
+    { name: 'OTP Submit', component: OTPSubmit },
+    { name: 'New Password', component: NewPassword }
 ];
 
 
