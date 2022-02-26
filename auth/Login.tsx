@@ -4,12 +4,13 @@ import { View, Text, TextInput, Button } from "react-native";
 import tw from 'tailwind-react-native-classnames';
 import { host } from "../config";
 import * as Storage from './../controllers/Storage';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const Login = ({ navigation, route }) => {
 
     const [error, setError] = useState("");
     const [formData, setFormData] = useState({ email: "", password: "", remember: false });
+    const [spin, setSpin] = useState(false);
 
     useEffect(() => {
         navigation.addListener('focus', () => {
@@ -24,26 +25,35 @@ const Login = ({ navigation, route }) => {
 
 
     function signIn() {
+        if(formData.email === "" || formData.password === ""){
+            setError("Please fill all the fields");
+            return;
+        }
+        setSpin(true);
         axios.post(`${host}/api/login`, formData).then(res => {
             Storage.storeData('token', res.data.token);
             Storage.storeData('user', JSON.stringify(res.data.user));
-             if (route.params !== undefined) {
+            if (route.params !== undefined) {
                 navigation.navigate(route.params.from)
             } else {
                 navigation.navigate("Home");
             }
         }).catch(err => {
             setError(err.response.data.message);
+        }).finally(() => {
+            setSpin(false);
         });
     }
 
 
     return (
         <View style={tw`w-full h-full bg-blue-300 p-4 flex items-center justify-center`}>
+            {spin ? <Spinner visible={true} /> : null}
             <View style={tw`rounded-md px-2 pt-6 pb-8 mb-4 w-72 h-64`}>
                 <View style={tw`mb-4`}>
                     <Text
                         style={tw`text-black  font-bold mb-2`}
+
                     >
                         Username
                     </Text>
@@ -52,7 +62,8 @@ const Login = ({ navigation, route }) => {
                         placeholder="Username"
                         keyboardType="default"
                         onChangeText={(value: string) => {
-                            setFormData({ ...formData, email: value })
+                            setFormData({ ...formData, email: value });
+                            setError("");
                         }}
                     />
                 </View>
@@ -67,7 +78,10 @@ const Login = ({ navigation, route }) => {
                         placeholder="******************"
                         secureTextEntry={true}
                         keyboardType="default"
-                        onChangeText={(value: string) => { setFormData({ ...formData, password: value }) }}
+                        onChangeText={(value: string) => { 
+                            setFormData({ ...formData, password: value });
+                            setError("");
+                         }}
                     />
                     <Text style={tw`text-red-700 text-xs italic mb-3`}>{error}</Text>
                 </View>

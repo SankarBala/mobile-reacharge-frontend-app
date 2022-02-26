@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import tw from 'tailwind-react-native-classnames';
 import { host } from "../config";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 const OTPSubmit = ({ navigation, route }) => {
 
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({ email: "sankarbala232@gmail.com", otp: "" });
+  const [spin, setSpin] = useState(false);
 
 
   useEffect(() => {
@@ -19,18 +21,28 @@ const OTPSubmit = ({ navigation, route }) => {
 
 
   function recover() {
+    if (formData.otp === "") {
+      setError("Please enter otp code");
+      return;
+    }
+    if (formData.otp.length !== 4) {
+      setError("Please enter a valid otp code");
+      return;
+    }
+    setSpin(true);
     axios.post(`${host}/api/password-otpvalidate`, formData).then(res => {
-      console.log(res.data);
       navigation.navigate("New Password", { email: formData.email, otp: formData.otp });
     }).catch(err => {
-      console.log(err);
       setError(err.response.data.message);
+    }).finally(() => {
+      setSpin(false);
     });
   }
 
 
   return (
     <View style={tw`w-full h-full bg-blue-300 p-4 flex items-center justify-center`}>
+      {spin ? <Spinner visible={true} /> : null}
       <View style={tw`rounded-md px-2 pt-6 pb-8 mb-4 w-72 h-64`}>
         <View style={tw`mb-4`}>
           <Text

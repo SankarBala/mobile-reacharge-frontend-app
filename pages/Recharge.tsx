@@ -9,6 +9,7 @@ import tw from "tailwind-react-native-classnames";
 import { RadioButton } from "react-native-paper";
 import * as Storage from "./../controllers/Storage";
 import api from "../api";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export default function Recharge({ navigation, route }) {
     const [formData, setFormData] = useState({
@@ -30,10 +31,20 @@ export default function Recharge({ navigation, route }) {
     }, [navigation]);
 
     const [message, setMessage] = useState("");
+    const [spin, setSpin] = useState(false);
 
 
 
     const rechargeNow = (): void => {
+        if (
+            formData.mobileNumber === ""
+            || formData.amount === ""
+            || formData.rechargePin === ""
+        ) {
+            setMessage("Please fill all the fields");
+            return;
+        }
+        setSpin(true);
         api().then((axios) => {
             axios
                 .post("/recharge", formData)
@@ -48,19 +59,15 @@ export default function Recharge({ navigation, route }) {
                 })
                 .catch((err) => {
                     setMessage(err.response.data.message);
-                    // if (err.response.status === 401) {
-                    //     Storage.removeData("token");
-                    //     Storage.removeData("user");
-                    //     navigation.navigate("Login", { from: "Recharge" });
-                    // }
-                });
+                }).finally(() => {
+                    setSpin(false);
+                })
         });
     };
 
     return (
-        <View
-            style={tw`w-full h-full bg-blue-300 p-4 flex items-center justify-center`}
-        >
+        <View style={tw`w-full h-full bg-blue-300 p-4 flex items-center justify-center`}>
+            {spin ? <Spinner visible={true} /> : null}
             <View style={tw`rounded-md px-2 pt-6 pb-8 mb-4 w-72`}>
                 <View style={tw`mb-1`}>
                     <Text style={tw`text-black text-sm font-bold mb-1`}>

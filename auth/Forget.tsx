@@ -3,26 +3,36 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import tw from 'tailwind-react-native-classnames';
 import { host } from "../config";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const Login = ({ navigation }) => {
 
     const [error, setError] = useState("");
     const [formData, setFormData] = useState({ email: "" });
+    const [spin, setSpin] = useState(false);
 
 
     function recover() {
+        if (formData.email === "") {
+            setError("Please fill the email address");
+            return;
+        }
+        setSpin(true);
         axios.post(`${host}/api/password-reset`, formData).then(res => {
             alert(res.data.message);
             navigation.navigate("OTP Submit", { email: formData.email });
         }).catch(err => {
             console.log(err);
             setError(err.response.data.message);
+        }).finally(() => {
+            setSpin(false);
         });
     }
 
 
     return (
         <View style={tw`w-full h-full bg-blue-300 p-4 flex items-center justify-center`}>
+            {spin ? <Spinner visible={true} /> : null}
             <View style={tw`rounded-md px-2 pt-6 pb-8 mb-4 w-72 h-64`}>
                 <View style={tw`mb-0`}>
                     <Text
@@ -39,7 +49,7 @@ const Login = ({ navigation }) => {
                         }}
                     />
                 </View>
-                <Text>{error}</Text>
+                <Text style={tw`text-sm text-red-900 italic`}>{error}</Text>
                 <View style={tw`flex justify-between mt-3`}>
                     <Button
                         title="Send recover request"

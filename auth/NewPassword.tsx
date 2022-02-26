@@ -4,6 +4,7 @@ import { View, Text, TextInput, Button } from "react-native";
 import tw from 'tailwind-react-native-classnames';
 import { host } from "../config";
 import * as Storage from "../controllers/Storage";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const NewPassword = ({ navigation, route }) => {
 
@@ -14,6 +15,7 @@ const NewPassword = ({ navigation, route }) => {
     password: "",
     password_confirmation: ""
   });
+  const [spin, setSpin] = useState(false);
 
 
   useEffect(() => {
@@ -24,20 +26,35 @@ const NewPassword = ({ navigation, route }) => {
 
 
   function recover() {
+    if (
+      formData.email === ""
+      || formData.otp === ""
+      || formData.password === ""
+      || formData.password_confirmation === ""
+    ) {
+      setError("Please fill all the fields");
+      return;
+    }
+    if (formData.password !== formData.password_confirmation) {
+      setError("Passwords do not match");
+      return;
+    }
+    setSpin(true);
     axios.post(`${host}/api/password-update`, formData).then(res => {
-      console.log(res.data);
       Storage.storeData('token', res.data.token);
       Storage.storeData('user', JSON.stringify(res.data.user));
       navigation.navigate("Home");
     }).catch(err => {
-      console.log(err);
       setError(err.response.data.message);
+    }).finally(() => {
+      setSpin(false);
     });
   }
 
 
   return (
     <View style={tw`w-full h-full bg-blue-300 p-4 flex items-center justify-center`}>
+      {spin ? <Spinner visible={true} /> : null}
       <View style={tw`rounded-md px-2 pt-6 pb-8 mb-4 w-72`}>
         <View style={tw`mb-4`}>
           <Text
@@ -61,7 +78,8 @@ const NewPassword = ({ navigation, route }) => {
             keyboardType="default"
             secureTextEntry={true}
             onChangeText={(value: string) => {
-              setFormData({ ...formData, password: value })
+              setFormData({ ...formData, password: value });
+              setError("");
             }}
           />
         </View>
@@ -77,11 +95,12 @@ const NewPassword = ({ navigation, route }) => {
             keyboardType="default"
             secureTextEntry={true}
             onChangeText={(value: string) => {
-              setFormData({ ...formData, password_confirmation: value })
+              setFormData({ ...formData, password_confirmation: value });
+              setError("");
             }}
           />
         </View>
-        <Text style={tw`text-sm text-red-900`}>{error}</Text>
+        <Text style={tw`text-sm text-red-900 italic`}>{error}</Text>
 
         <View style={tw`flex justify-between mt-4`}>
           <Button

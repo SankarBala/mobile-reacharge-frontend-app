@@ -3,6 +3,7 @@ import History from "./pages/History";
 import Recharge from "./pages/Recharge";
 import Profile from "./pages/Profile";
 import LoadWallet from "./pages/LoadWallet";
+import Payment from "./pages/Payment";
 
 // // Authentication pages
 import Login from "./auth/Login";
@@ -22,7 +23,8 @@ const routes = [
     { name: 'Load Wallet', component: LoadWallet },
     { name: 'Forget', component: Forget },
     { name: 'OTP Submit', component: OTPSubmit },
-    { name: 'New Password', component: NewPassword }
+    { name: 'New Password', component: NewPassword },
+    { name: 'Payment', component: Payment }
 ];
 
 

@@ -1,25 +1,41 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import axios from 'axios'
+import React from "react";
+import { ActivityIndicator, SafeAreaView, StyleSheet } from "react-native";
+import { WebView } from "react-native-webview";
 
-const Test = () => {
+function WebToNative(props) {
+    const webviewRef = React.useRef(null);
+    function onMessage(data) {
+        alert(data.nativeEvent.data);
+        console.log(data.nativeEvent.data);
+        props.navigation.navigate("Home");
+    }
 
-    axios.get('http://192.168.0.100:8000/api/recharge').then(res => {
-        console.log(res);
-    }).catch(err => {
-        console.log(err);
-    }).finally(() => {
-        console.log('finally');
-    });
-
-
-    return (
-        <View>
-            <Text>Test</Text>
-        </View>
-    )
+    function LoadingIndicatorView() {
+        return (
+            <ActivityIndicator
+                color="#009b88"
+                size="large"
+                style={styles.ActivityIndicatorStyle}
+            />
+        );
+    }
+    return (<WebView
+        source={{ uri: "https://www.google.com" }}
+        renderLoading={LoadingIndicatorView}
+        startInLoadingState={true}
+        ref={webviewRef}
+        onMessage={onMessage}
+    />
+    );
 }
 
-export default Test
-
-// https://reactnative.dev/movies.json
+const styles = StyleSheet.create({
+    ActivityIndicatorStyle: {
+        flex: 1,
+        justifyContent: "center",
+    },
+    flexContainer: {
+        flex: 1,
+    },
+});
+export default WebToNative;

@@ -7,6 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
 import routes from './routes'
 
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -21,7 +22,7 @@ export default function App() {
             options={{ title: 'Mobile Recharge' }}
           />
           {routes.map((route) => {
-            return <Stack.Screen name={route.name} component={route.component} key={route.name}/>
+            return <Stack.Screen name={route.name} component={route.component} key={route.name} />
           })}
         </Stack.Navigator>
         <Text style={tw`p-2 m-auto text-gray-600`}>
